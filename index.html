@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+    <title>Socket.IO Example</title>
+</head>
+<body>
+<script src="/socket.io/socket.io.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+
+
+
+<div class="container">
+    <div class="chat">
+        <ul class="chat-ul">
+        </ul>
+
+        <div class="input">
+            <input class="input-area" type="text">
+            <input class="input-button" type="button" id="send" value="OK">
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var socket = io('http://127.0.0.1:3000');
+
+    document.querySelector('#send').addEventListener('click', function (event) {
+        event.preventDefault();
+
+        let data = document.querySelector('.input-area').value;
+
+        socket.emit('message', data);
+    });
+
+    socket.on('new_message', function (data) {
+        let li  = document.createElement('li');
+        li.textContent = data;
+        li.classList.add('list-item');
+
+        document.querySelector('ul').appendChild(li);
+    })
+</script>
+
+<style>
+
+    body {
+        background-color: #EFEFF3;
+    }
+
+    .chat {
+        width: 600px;
+        margin: auto;
+        background-color: white;
+        margin-top: 50px;
+        padding: 10px;
+    }
+
+    li {
+        list-style-type: none;
+        border: 1px solid black;
+        border-radius: 8px;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .input {
+        margin: 30px;
+        padding: 10px;
+
+    }
+
+    .input-area {
+        margin: 10px;
+        width: 430px;
+        border-radius: 8px;
+        border: 1px solid black;
+        padding: 5px;
+    }
+
+    .input-button {
+        padding: 5px;
+        margin: 5px;
+
+    }
+
+    input[type="text"]:focus {
+        outline: none;
+    }
+</style>
+
+</body>
+</html>
